@@ -7,3 +7,5 @@ npm run build
 bottle-golfpeople-6ecbc1b568fd.json
 .env
 scheduler.sh
+
+pm2 start npm --name "nodeServer" -- start
