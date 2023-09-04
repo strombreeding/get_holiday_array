@@ -57,6 +57,7 @@ const reqDataAndUpdateSheet = async (year: string) => {
     };
     await sheets.spreadsheets.values.update(writeHeader);
     for (let i = 0; i < datas.length; i++) {
+      console.log(datas[i].dateName, datas[i].isHoliday);
       if (datas[i].isHoliday === "Y") {
         const date = utils.convertToFormattedDate(String(datas[i].locdate));
         const request = {
@@ -133,7 +134,7 @@ const runApp = async () => {
   } catch (err) {
     console.log(`runApp 실행도중 Error 발생,${err.message}`);
     const errMsg = err.message.split(" ")[1];
-    await writeLog(true, err.message, errMsg);
+    await writeLog(false, err.message, errMsg);
     return `Error:${err.message}`;
   }
 };
@@ -169,6 +170,10 @@ const writeLog = async (success: boolean, reason: string, target: string) => {
     const nowDate = new Date();
     const currentMonth = nowDate.getMonth() + 1;
     const currentDate = nowDate.getDate();
+    const hours = String(nowDate.getHours()).padStart(2, "0");
+    const minutes = String(nowDate.getMinutes()).padStart(2, "0");
+    const seconds = String(nowDate.getSeconds()).padStart(2, "0");
+    const time = `${hours}:${minutes}:${seconds}`;
     const date = `${nowDate.getFullYear()}-${
       currentMonth > 12
         ? "01"
@@ -178,10 +183,10 @@ const writeLog = async (success: boolean, reason: string, target: string) => {
     }-${currentMonth < 10 ? `0${currentDate}` : currentMonth} `;
     const logData = {
       spreadsheetId,
-      range: "cronJob!A2:D2",
+      range: "cronJob!A2:E2",
       valueInputOption: "RAW",
       resource: {
-        values: [[date, target, success, reason]],
+        values: [[date, time, target, success, reason]],
       },
     };
     const response = await sheets.spreadsheets.values.append(logData);
@@ -204,6 +209,7 @@ export const updateHolidayArray = async () => {
       const result = await sheets.spreadsheets.values.get(request);
       // resultArray.push(...result.data.values);
       result.data.values.map((item) => {
+        if (!item[0]) return;
         resultArray.push(item[0]);
       });
     }
