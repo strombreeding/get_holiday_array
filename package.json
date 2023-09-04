@@ -1,5 +1,5 @@
 {
-  "name": "get_similar_words",
+  "name": "node-server",
   "version": "1.0.0",
   "description": "유사 단어 검색기능",
   "main": "index.js",

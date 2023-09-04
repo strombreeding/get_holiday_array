@@ -73,7 +73,7 @@ const reqDataAndUpdateSheet = async (year: string) => {
     await plusYear(year);
     return true;
   } catch (err) {
-    throw new Error(`공공데이터에서 ${year}년도가 갱신 되지 않았습니다.`);
+    throw new Error(`공공데이터에서 ${year} 년도가 갱신 되지 않았습니다.`);
   }
 };
 const addNewSheet = async (sheetName: string) => {
@@ -125,11 +125,14 @@ const runApp = async () => {
       if (reqData !== true) break;
       ++year;
     }
+    await writeLog(true, "성공적으로 수집 완료", year.toString());
     console.log("종료");
     return;
   } catch (err) {
     console.log(`runApp 실행도중 Error 발생,${err.message}`);
-    return `runApp 실행도중 Error 발생,${err.message}`;
+    const errMsg = err.message.split(" ")[1];
+    await writeLog(true, err.message, errMsg);
+    return `Error:${err.message}`;
   }
 };
 
@@ -156,6 +159,33 @@ const getSheetInfo = async () => {
     return filteredYears;
   } catch (error) {
     console.error("Error:", error.message);
+  }
+};
+
+const writeLog = async (success: boolean, reason: string, target: string) => {
+  try {
+    const nowDate = new Date();
+    const currentMonth = nowDate.getMonth() + 1;
+    const currentDate = nowDate.getDate();
+    const date = `${nowDate.getFullYear()}-${
+      currentMonth > 12
+        ? "01"
+        : currentMonth < 10
+        ? `0${currentMonth}`
+        : currentMonth
+    }-${currentMonth < 10 ? `0${currentDate}` : currentMonth} `;
+    const logData = {
+      spreadsheetId,
+      range: "cronJob!A2:D2",
+      valueInputOption: "RAW",
+      resource: {
+        values: [[date, target, success, reason]],
+      },
+    };
+    const response = await sheets.spreadsheets.values.append(logData);
+    return;
+  } catch (err) {
+    throw new Error(`Error: 로그 작성중 오류가 발생 //  ${err.message}`);
   }
 };
 
