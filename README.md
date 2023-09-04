@@ -9,3 +9,6 @@ bottle-golfpeople-6ecbc1b568fd.json
 scheduler.sh
 
 pm2 start npm --name "nodeServer" -- start
+
+힙메모리 부족시
+export NODE_OPTIONS=--max_old_space_size=4096

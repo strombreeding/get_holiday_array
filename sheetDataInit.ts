@@ -57,17 +57,19 @@ const reqDataAndUpdateSheet = async (year: string) => {
     };
     await sheets.spreadsheets.values.update(writeHeader);
     for (let i = 0; i < datas.length; i++) {
-      const date = utils.convertToFormattedDate(String(datas[i].locdate));
-      const request = {
-        spreadsheetId,
-        range: `${year}!A${i + 2}:B${i + 2}`, // 범위
-        valueInputOption: "RAW",
-        resource: {
-          values: [[date, datas[i].dateName]],
-        },
-      };
-
-      const response = await sheets.spreadsheets.values.update(request);
+      if (datas[i].isHoliday === "Y") {
+        const date = utils.convertToFormattedDate(String(datas[i].locdate));
+        const request = {
+          spreadsheetId,
+          range: `${year}!A${i + 2}:B${i + 2}`, // 범위
+          valueInputOption: "RAW",
+          resource: {
+            values: [[date, datas[i].dateName]],
+          },
+        };
+        const response = await sheets.spreadsheets.values.update(request);
+        continue;
+      }
     }
 
     await plusYear(year);
