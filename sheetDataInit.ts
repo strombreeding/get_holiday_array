@@ -1,7 +1,7 @@
 import { google } from "googleapis";
 import axios from "axios";
-import * as utils from "./utils";
-import { count } from "./routers/holiday";
+import * as utils from "./src/utils";
+import { count } from "./src/routers/holiday";
 require("dotenv").config();
 
 interface Data {

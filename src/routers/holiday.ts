@@ -1,6 +1,6 @@
 import express from "express";
 import * as utils from "../utils";
-import { updateHolidayArray, writeLog } from "../sheetDataInit";
+import { updateHolidayArray, writeLog } from "../../sheetDataInit";
 
 const holidayRouter = express();
 const holidayArray = [];
