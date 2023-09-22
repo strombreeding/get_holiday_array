@@ -1,6 +1,6 @@
 import express from "express";
 import * as utils from "../utils";
-import { updateHolidayArray } from "../../sheetDataInit";
+import { updateHolidayArray, writeLog } from "../sheetDataInit";
 
 const holidayRouter = express();
 const holidayArray = [];
@@ -17,6 +17,10 @@ holidayRouter.get("/holidays", async (req, res, next) => {
   return res.status(200).json({
     holidayArray,
   });
+});
+holidayRouter.get("/reqCnt", async (req, res, next) => {
+  await writeLog(true, "서버 요청 횟수 갱신", "2023");
+  return res.status(200).send(count);
 });
 
 holidayRouter.get(secretURL, updateHolidayArray);
