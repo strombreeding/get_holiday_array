@@ -1,6 +1,7 @@
 import { google } from "googleapis";
 import axios from "axios";
 import * as utils from "./src/utils";
+import { count } from "./src/routers/holiday";
 require("dotenv").config();
 
 interface Data {
@@ -184,10 +185,10 @@ const writeLog = async (success: boolean, reason: string, target: string) => {
     }-${currentMonth < 10 ? `0${currentDate}` : currentMonth} `;
     const logData = {
       spreadsheetId,
-      range: "cronJob!A2:E2",
+      range: "cronJob!A2:F2",
       valueInputOption: "RAW",
       resource: {
-        values: [[date, time, target, success, reason]],
+        values: [[date, time, target, success, `${count}`, reason]],
       },
     };
     const response = await sheets.spreadsheets.values.append(logData);

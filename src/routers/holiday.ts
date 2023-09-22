@@ -5,6 +5,7 @@ import { updateHolidayArray } from "../../sheetDataInit";
 const holidayRouter = express();
 const holidayArray = [];
 const secretURL = process.env.SECRET_URL;
+export let count = 0;
 export const verifyHoliday = (date: string) => {};
 
 holidayRouter.get("/holidays", async (req, res, next) => {
@@ -12,6 +13,7 @@ holidayRouter.get("/holidays", async (req, res, next) => {
     const subArr = await updateHolidayArray();
     holidayArray.push(...subArr);
   }
+  ++count;
   return res.status(200).json({
     holidayArray,
   });
