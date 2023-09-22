@@ -32,7 +32,7 @@
     "target": "ES6", // 단, Number.isInteger 와 같은 최신문법 사용시 ES6로 올려야함
     "sourceMap": true, // 디버거시 필요한 ts를 볼 수 있게해줌 .map 달려서 나옴
     "outDir": "./dist", // 컴파일된 파일의 저장위치
-    "baseUrl": "./", // 최상위 폴더 위치 현재 파일이 있는 위치
+    "baseUrl": ".", // 최상위 폴더 위치 현재 파일이 있는 위치
     "incremental": true, // 점진적 빌드라는데 아직모름
     "skipLibCheck": true,
     "strictNullChecks": false, // null , undefinded 에 수상한 행동할 시 에러 여부
