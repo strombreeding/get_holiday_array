@@ -8,7 +8,6 @@ const secretURL = process.env.SECRET_URL;
 export const verifyHoliday = (date: string) => {};
 
 holidayRouter.get("/holidays", async (req, res, next) => {
-  console.log(holidayArray.length);
   if (holidayArray.length === 0) {
     const subArr = await updateHolidayArray();
     holidayArray.push(...subArr);

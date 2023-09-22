@@ -154,7 +154,8 @@ const getSheetInfo = async () => {
       (sheet) => sheet.properties.title
     );
     const filteredYears = sheetNames.filter((name) => {
-      if (name === year || name === "lastYear") return false;
+      if (name === year || name === "lastYear" || name === "cronJob")
+        return false;
       return true;
     });
     console.log("Number of sheets:", filteredYears.length);
