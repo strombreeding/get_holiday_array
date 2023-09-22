@@ -19,7 +19,11 @@ holidayRouter.get("/holidays", async (req, res, next) => {
   });
 });
 holidayRouter.get("/reqCnt", async (req, res, next) => {
-  await writeLog(true, "서버 요청 횟수 갱신", "2023");
+  try {
+    await writeLog(true, "서버 요청 횟수 갱신", "2023");
+  } catch (err) {
+    console.log(err);
+  }
   return res.status(200).send(count);
 });
 
